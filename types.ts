@@ -37,4 +37,23 @@ export interface LoanSummary {
   tenureSavedMonths: number;
   totalAmountStandard: number;
   totalAmountWithPrepayment: number;
+  totalPrepaymentOutlay: number;
+}
+
+export interface PrepaymentInsight {
+  totalPrepaymentOutlay: number;
+  interestSaved: number;
+  roi: number; // percentage
+  annualisedReturn: number; // percentage
+  tenureSavedMonths: number;
+}
+
+export interface ScenarioState {
+  lumpsumAmount: number;
+  prepaymentFrequency: number;
+  monthlyExtraPayment: number;
+  customEmi: number;
+  yearlyPrepayments: number[];
+  prepaymentTiming: PrepaymentTiming;
+  prepaymentMode: PrepaymentMode;
 }
