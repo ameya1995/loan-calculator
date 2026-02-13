@@ -1,0 +1,5 @@
+{
+  "name": "LoanPro: Prepayment Visualizer",
+  "description": "An advanced interactive tool to calculate EMI and visualize the impact of annual lumpsum prepayments on loan tenure and interest savings.",
+  "requestFramePermissions": []
+}
