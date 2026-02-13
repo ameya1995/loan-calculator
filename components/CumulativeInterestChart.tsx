@@ -20,18 +20,18 @@ const CumulativeInterestChart: React.FC<CumulativeInterestChartProps> = ({
   formatCurrency,
 }) => {
   return (
-    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+    <div className="glass-card p-8 rounded-3xl shadow-sm animate-fade-in-up">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
         <div>
-          <h2 className="text-xl font-black text-slate-800">Cumulative Interest</h2>
+          <h2 className="text-xl font-extrabold text-slate-800">Cumulative Interest</h2>
           <p className="text-sm text-slate-400 font-medium">Total interest paid over time</p>
         </div>
-        <div className="flex gap-6">
+        <div className="flex gap-5">
           <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500 uppercase">
-            <span className="w-2.5 h-2.5 bg-red-400 rounded-full"></span> Standard
+            <span className="w-3 h-1.5 bg-red-400 rounded-full"></span> Standard
           </div>
           <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500 uppercase">
-            <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span> With Prepayment
+            <span className="w-3 h-1.5 bg-emerald-500 rounded-full"></span> With Prepayment
           </div>
         </div>
       </div>

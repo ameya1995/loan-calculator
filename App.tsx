@@ -277,26 +277,29 @@ const App: React.FC = () => {
   // ── Render ────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 selection:bg-indigo-100 font-inter">
+    <div className="min-h-screen mesh-bg pb-20 selection:bg-indigo-100">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <header className="glass-card sticky top-0 z-40 border-b border-white/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <div
-              className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200"
+              className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200/60"
               aria-hidden="true"
             >
-              <TrendingDown size={22} strokeWidth={2.5} />
+              <TrendingDown size={20} strokeWidth={2.5} />
             </div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              LoanPro <span className="text-indigo-600 font-extrabold">Visualizer</span>
-            </h1>
+            <div>
+              <h1 className="text-lg font-extrabold text-slate-900 tracking-tight leading-none">
+                LoanPro <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Visualizer</span>
+              </h1>
+              <p className="text-[10px] font-semibold text-slate-400 tracking-wide">Smart Prepayment Planner</p>
+            </div>
           </div>
           <button
             onClick={fetchAdvice}
             disabled={loadingAdvice}
             aria-label="Get AI financial insights"
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 active:scale-95 transition-all font-medium text-sm shadow-md disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl hover:from-indigo-700 hover:to-violet-700 active:scale-[0.97] transition-all font-semibold text-sm shadow-lg shadow-indigo-200/50 disabled:opacity-50"
           >
             {loadingAdvice ? <RefreshCw className="animate-spin" size={16} /> : <Sparkles size={16} />}
             AI Insights
@@ -304,35 +307,40 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* ─── Left column: Inputs ─────────────────────────────────── */}
         <section className="lg:col-span-4 flex flex-col gap-6" aria-label="Loan configuration">
           <ErrorBoundary>
-            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition-all hover:shadow-md">
+            <div className="glass-card p-6 rounded-3xl shadow-sm transition-all hover:shadow-md animate-fade-in-up">
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                  <Calendar size={20} className="text-indigo-500" />
-                  Loan Configuration
+                <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
+                    <Calendar size={16} className="text-indigo-500" />
+                  </div>
+                  Loan Setup
                 </h2>
-                <label className="flex items-center gap-2 text-xs font-semibold text-slate-500 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={compareEnabled}
-                    onChange={e => setCompareEnabled(e.target.checked)}
-                    className="accent-indigo-600"
-                  />
-                  Compare Scenarios
+                <label className="flex items-center gap-2 text-xs font-semibold text-slate-500 cursor-pointer select-none hover:text-indigo-600 transition-colors">
+                  <div className={`relative w-9 h-5 rounded-full transition-colors ${compareEnabled ? 'bg-indigo-600' : 'bg-slate-200'}`}>
+                    <input
+                      type="checkbox"
+                      checked={compareEnabled}
+                      onChange={e => setCompareEnabled(e.target.checked)}
+                      className="sr-only"
+                    />
+                    <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${compareEnabled ? 'translate-x-4' : ''}`} />
+                  </div>
+                  Compare
                 </label>
               </div>
 
               {/* Validation warnings */}
               {validationErrors.length > 0 && (
-                <div className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4" role="alert">
+                <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/60 rounded-2xl p-4" role="alert">
                   <div className="flex items-center gap-2 mb-2 text-amber-700 font-bold text-xs uppercase tracking-widest">
                     <AlertTriangle size={14} /> Validation
                   </div>
                   {validationErrors.map((err, i) => (
-                    <p key={i} className="text-xs text-amber-600 font-medium">{err}</p>
+                    <p key={i} className="text-xs text-amber-600 font-medium leading-relaxed">{err}</p>
                   ))}
                 </div>
               )}
@@ -340,9 +348,9 @@ const App: React.FC = () => {
               <div className="space-y-8">
                 {/* Base loan inputs */}
                 <div>
-                  <div className="flex justify-between mb-3">
+                  <div className="flex justify-between items-center mb-3">
                     <label className="text-sm font-semibold text-slate-500" id="principal-label">Loan Amount</label>
-                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50/80 px-3 py-1 rounded-lg">
                       {formatCurrency(baseInputs.principal)}
                     </span>
                   </div>
@@ -350,14 +358,14 @@ const App: React.FC = () => {
                     type="range" min="1000000" max="100000000" step="500000"
                     name="principal" value={baseInputs.principal} onChange={handleBaseChange}
                     aria-labelledby="principal-label"
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                    className="w-full accent-indigo-600"
                   />
                 </div>
 
                 <div>
-                  <div className="flex justify-between mb-3">
+                  <div className="flex justify-between items-center mb-3">
                     <label className="text-sm font-semibold text-slate-500" id="rate-label">Interest Rate</label>
-                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50/80 px-3 py-1 rounded-lg">
                       {baseInputs.annualInterestRate}%
                     </span>
                   </div>
@@ -365,14 +373,14 @@ const App: React.FC = () => {
                     type="range" min="1" max="20" step="0.1"
                     name="annualInterestRate" value={baseInputs.annualInterestRate} onChange={handleBaseChange}
                     aria-labelledby="rate-label"
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                    className="w-full accent-indigo-600"
                   />
                 </div>
 
                 <div>
-                  <div className="flex justify-between mb-3">
+                  <div className="flex justify-between items-center mb-3">
                     <label className="text-sm font-semibold text-slate-500" id="tenure-label">Tenure (Years)</label>
-                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50/80 px-3 py-1 rounded-lg">
                       {baseInputs.tenureYears} Yrs
                     </span>
                   </div>
@@ -380,7 +388,7 @@ const App: React.FC = () => {
                     type="range" min="1" max="30" step="1"
                     name="tenureYears" value={baseInputs.tenureYears} onChange={handleBaseChange}
                     aria-labelledby="tenure-label"
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                    className="w-full accent-indigo-600"
                   />
                 </div>
 
@@ -414,15 +422,18 @@ const App: React.FC = () => {
           </ErrorBoundary>
 
           {/* EMI card */}
-          <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-xl shadow-slate-200 relative overflow-hidden">
+          <div className="emi-card text-white p-8 rounded-3xl shadow-xl shadow-indigo-200/40 animate-fade-in-up stagger-1">
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-bold opacity-60 uppercase tracking-[0.2em]">Estimated EMI</span>
-                <IndianRupee size={18} className="text-indigo-400" />
+                <span className="text-xs font-bold text-indigo-200 uppercase tracking-[0.2em]">Monthly EMI</span>
+                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                  <IndianRupee size={16} className="text-indigo-300" />
+                </div>
               </div>
-              <div className="text-4xl font-black mb-2 tracking-tight">{formatCurrency(summary.monthlyEmi)}</div>
-              <div className="text-xs font-medium text-slate-400">
-                Total payable (std): {formatCurrency(summary.totalAmountStandard)}
+              <div className="text-4xl font-black mb-3 tracking-tight drop-shadow-sm">{formatCurrency(summary.monthlyEmi)}</div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-indigo-300/80">Total payable:</span>
+                <span className="text-xs font-bold text-white/70">{formatCurrency(summary.totalAmountStandard)}</span>
               </div>
             </div>
           </div>
@@ -433,31 +444,38 @@ const App: React.FC = () => {
           <ErrorBoundary>
             {/* Summary cards — Scenario A */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-white p-6 rounded-3xl border border-slate-200 flex flex-col transition-all hover:border-emerald-200 card-hover">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Interest Saved</span>
-                <div className="text-2xl font-black text-emerald-600 mb-1">{formatCurrency(summary.interestSaved)}</div>
-                <div className="mt-auto pt-4 flex items-center gap-2 text-xs font-bold text-emerald-500 bg-emerald-50 w-fit px-2 py-1 rounded-lg">
-                  <Percent size={14} strokeWidth={3} />
-                  {((summary.interestSaved / (summary.totalInterestStandard || 1)) * 100).toFixed(1)}% Save
+              <div className="glass-card p-6 rounded-3xl flex flex-col card-hover animate-fade-in-up group">
+                <span className="section-label mb-3">Interest Saved</span>
+                <div className="stat-value text-emerald-600 mb-1">{formatCurrency(summary.interestSaved)}</div>
+                <div className="mt-auto pt-4">
+                  <span className="badge bg-emerald-50 text-emerald-600 group-hover:bg-emerald-100 transition-colors">
+                    <Percent size={12} strokeWidth={3} />
+                    {((summary.interestSaved / (summary.totalInterestStandard || 1)) * 100).toFixed(1)}% saved
+                  </span>
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-3xl border border-slate-200 flex flex-col transition-all hover:border-indigo-200 card-hover">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Time Saved</span>
-                <div className="text-2xl font-black text-indigo-600 mb-1">
+              <div className="glass-card p-6 rounded-3xl flex flex-col card-hover animate-fade-in-up stagger-1 group">
+                <span className="section-label mb-3">Time Saved</span>
+                <div className="stat-value text-indigo-600 mb-1">
                   {Math.floor(summary.tenureSavedMonths / 12)}y {summary.tenureSavedMonths % 12}m
                 </div>
-                <div className="mt-auto pt-4 flex items-center gap-2 text-xs font-bold text-indigo-500 bg-indigo-50 w-fit px-2 py-1 rounded-lg">
-                  <Calendar size={14} strokeWidth={3} />
-                  {(summary.tenureSavedMonths / 12).toFixed(1)} Years
+                <div className="mt-auto pt-4">
+                  <span className="badge bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100 transition-colors">
+                    <Calendar size={12} strokeWidth={3} />
+                    {(summary.tenureSavedMonths / 12).toFixed(1)} years faster
+                  </span>
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-3xl border border-slate-200 flex flex-col transition-all hover:border-slate-300 card-hover">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Total Payable</span>
-                <div className="text-2xl font-black text-slate-800 mb-1">{formatCurrency(summary.totalAmountWithPrepayment)}</div>
-                <div className="mt-auto pt-4 flex items-center gap-2 text-xs font-bold text-slate-500">
-                  Reduced from {formatLakhs(summary.totalAmountStandard)}
+              <div className="glass-card p-6 rounded-3xl flex flex-col card-hover animate-fade-in-up stagger-2 group">
+                <span className="section-label mb-3">Total Payable</span>
+                <div className="stat-value text-slate-800 mb-1">{formatCurrency(summary.totalAmountWithPrepayment)}</div>
+                <div className="mt-auto pt-4">
+                  <span className="badge bg-slate-100 text-slate-500 group-hover:bg-slate-200 transition-colors">
+                    <TrendingDown size={12} strokeWidth={3} />
+                    from {formatLakhs(summary.totalAmountStandard)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -465,39 +483,37 @@ const App: React.FC = () => {
             {/* ── NEW: Prepayment Insight Card ────────────────────── */}
             {insight.totalPrepaymentOutlay > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-gradient-to-br from-emerald-50 to-white p-6 rounded-3xl border border-emerald-100 flex flex-col card-hover">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1">
-                    <Wallet size={12} /> Total Prepayment Outlay
+                <div className="relative overflow-hidden p-6 rounded-3xl border border-emerald-100/60 bg-gradient-to-br from-emerald-50/80 via-white to-white flex flex-col card-hover animate-fade-in-up stagger-1">
+                  <span className="section-label mb-3 flex items-center gap-1">
+                    <Wallet size={12} className="text-emerald-400" /> Prepaid Outlay
                   </span>
-                  <div className="text-2xl font-black text-emerald-700 mb-1">
+                  <div className="stat-value text-emerald-700 mb-1">
                     {formatCurrency(insight.totalPrepaymentOutlay)}
                   </div>
-                  <div className="mt-auto pt-4 text-xs font-medium text-slate-400">
-                    Extra money invested above standard EMI
+                  <div className="mt-auto pt-4 text-[11px] font-medium text-slate-400">
+                    Extra money beyond standard EMI
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-3xl border border-indigo-100 flex flex-col card-hover">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1">
-                    <Target size={12} /> Return on Prepayment
+                <div className="relative overflow-hidden p-6 rounded-3xl border border-indigo-100/60 bg-gradient-to-br from-indigo-50/80 via-white to-white flex flex-col card-hover animate-fade-in-up stagger-2">
+                  <span className="section-label mb-3 flex items-center gap-1">
+                    <Target size={12} className="text-indigo-400" /> Return on Prepayment
                   </span>
-                  <div className="text-2xl font-black text-indigo-700 mb-1">
+                  <div className="stat-value text-indigo-700 mb-1">
                     {insight.roi.toFixed(1)}%
                   </div>
-                  <div className="mt-auto pt-4 text-xs font-medium text-slate-400">
-                    Saved {formatCurrency(insight.interestSaved)} on {formatCurrency(insight.totalPrepaymentOutlay)} invested
+                  <div className="mt-auto pt-4 text-[11px] font-medium text-slate-400">
+                    Saved {formatCurrency(insight.interestSaved)} on {formatCurrency(insight.totalPrepaymentOutlay)}
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-violet-50 to-white p-6 rounded-3xl border border-violet-100 flex flex-col card-hover">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
-                    Effective Annual Return
-                  </span>
-                  <div className="text-2xl font-black text-violet-700 mb-1">
-                    ~{insight.annualisedReturn.toFixed(1)}% p.a.
+                <div className="relative overflow-hidden p-6 rounded-3xl border border-violet-100/60 bg-gradient-to-br from-violet-50/80 via-white to-white flex flex-col card-hover animate-fade-in-up stagger-3">
+                  <span className="section-label mb-3">Annual Return</span>
+                  <div className="stat-value text-violet-700 mb-1">
+                    ~{insight.annualisedReturn.toFixed(1)}% <span className="text-lg font-bold text-violet-400">p.a.</span>
                   </div>
-                  <div className="mt-auto pt-4 text-xs font-medium text-slate-400">
-                    Equivalent guaranteed return on your prepayments
+                  <div className="mt-auto pt-4 text-[11px] font-medium text-slate-400">
+                    Equivalent guaranteed return
                   </div>
                 </div>
               </div>
@@ -506,29 +522,35 @@ const App: React.FC = () => {
             {/* Scenario B summary cards */}
             {compareEnabled && summaryB && (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-white p-6 rounded-3xl border border-indigo-100 flex flex-col">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Scenario B Interest Saved</span>
-                  <div className="text-2xl font-black text-indigo-600 mb-1">{formatCurrency(summaryB.interestSaved)}</div>
-                  <div className="mt-auto pt-4 text-xs font-bold text-indigo-500">
-                    {((summaryB.interestSaved / (summaryB.totalInterestStandard || 1)) * 100).toFixed(1)}% Save
+                <div className="glass-card p-6 rounded-3xl flex flex-col card-hover animate-fade-in-up">
+                  <span className="section-label mb-3">B — Interest Saved</span>
+                  <div className="stat-value text-indigo-600 mb-1">{formatCurrency(summaryB.interestSaved)}</div>
+                  <div className="mt-auto pt-4">
+                    <span className="badge bg-indigo-50 text-indigo-600">
+                      {((summaryB.interestSaved / (summaryB.totalInterestStandard || 1)) * 100).toFixed(1)}% saved
+                    </span>
                   </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-3xl border border-indigo-100 flex flex-col">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Scenario B Time Saved</span>
-                  <div className="text-2xl font-black text-indigo-600 mb-1">
+                <div className="glass-card p-6 rounded-3xl flex flex-col card-hover animate-fade-in-up stagger-1">
+                  <span className="section-label mb-3">B — Time Saved</span>
+                  <div className="stat-value text-indigo-600 mb-1">
                     {Math.floor(summaryB.tenureSavedMonths / 12)}y {summaryB.tenureSavedMonths % 12}m
                   </div>
-                  <div className="mt-auto pt-4 text-xs font-bold text-indigo-500">
-                    {(summaryB.tenureSavedMonths / 12).toFixed(1)} Years
+                  <div className="mt-auto pt-4">
+                    <span className="badge bg-indigo-50 text-indigo-600">
+                      {(summaryB.tenureSavedMonths / 12).toFixed(1)} years faster
+                    </span>
                   </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-3xl border border-indigo-100 flex flex-col">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Scenario B Total Payable</span>
-                  <div className="text-2xl font-black text-slate-800 mb-1">{formatCurrency(summaryB.totalAmountWithPrepayment)}</div>
-                  <div className="mt-auto pt-4 text-xs font-bold text-slate-500">
-                    Reduced from {formatLakhs(summaryB.totalAmountStandard)}
+                <div className="glass-card p-6 rounded-3xl flex flex-col card-hover animate-fade-in-up stagger-2">
+                  <span className="section-label mb-3">B — Total Payable</span>
+                  <div className="stat-value text-slate-800 mb-1">{formatCurrency(summaryB.totalAmountWithPrepayment)}</div>
+                  <div className="mt-auto pt-4">
+                    <span className="badge bg-slate-100 text-slate-500">
+                      from {formatLakhs(summaryB.totalAmountStandard)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -536,10 +558,10 @@ const App: React.FC = () => {
 
             {/* Comparison table */}
             {compareEnabled && summaryB && (
-              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+              <div className="glass-card p-6 rounded-3xl shadow-sm animate-fade-in-up">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-                  <h3 className="text-lg font-black text-slate-800">Scenario A vs B</h3>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Quick Comparison</span>
+                  <h3 className="text-lg font-extrabold text-slate-800">Scenario A vs B</h3>
+                  <span className="section-label">Quick Comparison</span>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs" role="table" aria-label="Scenario comparison">
@@ -590,10 +612,10 @@ const App: React.FC = () => {
             )}
 
             {/* ── Projected Payoff Chart ──────────────────────────── */}
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+            <div className="glass-card p-8 rounded-3xl shadow-sm relative overflow-hidden animate-fade-in-up">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
                 <div>
-                  <h2 className="text-xl font-black text-slate-800">Projected Payoff</h2>
+                  <h2 className="text-xl font-extrabold text-slate-800">Projected Payoff</h2>
                   <p className="text-sm text-slate-400 font-medium">Principal balance remaining by year</p>
                 </div>
                 <div className="flex gap-6">
@@ -661,11 +683,16 @@ const App: React.FC = () => {
 
             {/* AI Advice */}
             {aiAdvice && (
-              <div className="bg-white border border-indigo-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+              <div className="relative overflow-hidden p-8 rounded-3xl shadow-sm border border-indigo-100/60 bg-gradient-to-br from-indigo-50/40 via-white to-violet-50/30 animate-fade-in-up">
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-6 text-indigo-600">
-                    <Sparkles size={18} />
-                    <h3 className="text-slate-900 font-extrabold text-lg">Advisor's Analysis</h3>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-200/40">
+                      <Sparkles size={16} className="text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-slate-900 font-extrabold text-lg leading-none">AI Analysis</h3>
+                      <p className="text-[10px] font-semibold text-indigo-400 mt-0.5">Powered by Gemini</p>
+                    </div>
                   </div>
                   <div className="prose prose-slate prose-sm max-w-none text-slate-600 leading-relaxed whitespace-pre-line">
                     {aiAdvice}
@@ -678,15 +705,15 @@ const App: React.FC = () => {
             <div className="mt-4">
               <button
                 onClick={() => setShowSchedule(!showSchedule)}
-                className="w-full py-5 bg-white border border-slate-200 rounded-3xl flex items-center justify-center gap-3 hover:bg-slate-50 transition-all font-bold text-slate-700 shadow-sm"
+                className="w-full py-5 glass-card rounded-3xl flex items-center justify-center gap-3 hover:bg-white/90 transition-all font-bold text-slate-700 shadow-sm group"
                 aria-expanded={showSchedule}
               >
-                <TableIcon size={20} className="text-slate-400" />
+                <TableIcon size={18} className="text-slate-400 group-hover:text-indigo-500 transition-colors" />
                 {showSchedule ? 'Hide Full Table' : 'View Amortization Schedule'}
               </button>
 
               {showSchedule && (
-                <div className="mt-6 overflow-x-auto bg-white rounded-3xl border border-slate-200 shadow-2xl max-h-[500px] overflow-y-auto schedule-scroll">
+                <div className="mt-6 overflow-x-auto glass-card rounded-3xl shadow-xl max-h-[500px] overflow-y-auto schedule-scroll animate-fade-in-up">
                   <div className="flex flex-wrap items-center justify-between gap-4 px-6 py-4 border-b border-slate-100">
                     <div className="flex items-center gap-2" role="tablist">
                       <button

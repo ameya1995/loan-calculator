@@ -30,8 +30,8 @@ const InterestBreakdownChart: React.FC<InterestBreakdownChartProps> = ({
   const prepaidPct = ((interestWithPrepayment / (principal + interestWithPrepayment)) * 100).toFixed(1);
 
   return (
-    <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-      <h2 className="text-xl font-black text-slate-800 mb-2">Interest vs Principal</h2>
+    <div className="glass-card p-8 rounded-3xl shadow-sm animate-fade-in-up">
+      <h2 className="text-xl font-extrabold text-slate-800 mb-2">Interest vs Principal</h2>
       <p className="text-sm text-slate-400 font-medium mb-8">Where your money goes</p>
 
       <div className="grid grid-cols-2 gap-6">
